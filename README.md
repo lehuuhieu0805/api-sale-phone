@@ -71,3 +71,15 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Note
+
+#### TypeORM command
+
+```bash
+# generate migration
+$ npm run migration:generate ./src/database/migrations/initDb
+
+# run migration
+$ npm run migration:run
+```
