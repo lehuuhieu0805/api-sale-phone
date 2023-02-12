@@ -2,8 +2,11 @@ import { APIPrefix } from './constants/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
+  const logger = new Logger();
+
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix(APIPrefix.VERSION);
@@ -17,6 +20,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  const port: number = Number(process.env.PORT) || 3000;
+
+  await app.listen(port, () => {
+    logger.log(`Server is running on port ${port}`);
+  });
 }
 bootstrap();
