@@ -83,3 +83,16 @@ $ npm run migration:generate ./src/database/migrations/initDb
 # run migration
 $ npm run migration:run
 ```
+
+#### Server command
+
+```bash
+# show all port in ubuntu
+$ sudo netstat -plnt
+```
+
+#### Reference
+
+https://dev.to/deadwin19/deploy-nest-js-app-using-pm2-on-linux-ubuntu-server-88f
+
+https://khanh.website/2020/05/17/huong-dan-host-node-js-voi-pm2-nginx-va-kich-hoat-https-bang-certbot-tren-ubuntu/
