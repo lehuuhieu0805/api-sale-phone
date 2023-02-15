@@ -89,6 +89,9 @@ $ npm run migration:run
 ```bash
 # show all port in ubuntu
 $ sudo netstat -plnt
+
+# run project FE
+$ pm2 serve html 4002 --name sale-phone-ui
 ```
 
 #### Reference
