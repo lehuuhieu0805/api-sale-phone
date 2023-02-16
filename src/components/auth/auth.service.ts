@@ -27,6 +27,7 @@ export class AuthService implements IAuthService {
       const user = new User();
       user.username = signUpDto.username;
       user.password = signUpDto.password;
+      user.role = 'USER';
 
       return this.userRepository.create(user);
     } catch (error) {
@@ -38,7 +39,7 @@ export class AuthService implements IAuthService {
     const user = await this.userRepository.getUserByUsername(
       signInDto.username,
     );
-    const payload: IJwtPayload = { username: user.username };
+    const payload: IJwtPayload = { username: user.username, role: user.role };
     return { access_token: this.jwtService.sign(payload) };
   }
 
