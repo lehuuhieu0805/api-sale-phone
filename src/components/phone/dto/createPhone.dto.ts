@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsNotEmpty, Min } from 'class-validator';
 
 export class CreatePhoneDto {
   @ApiProperty()
@@ -7,14 +8,17 @@ export class CreatePhoneDto {
   name: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
   price: number;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
   quantity: number;
 
   @ApiProperty({ type: 'string', format: 'binary' })
-  @IsNotEmpty()
   image: any;
 }
