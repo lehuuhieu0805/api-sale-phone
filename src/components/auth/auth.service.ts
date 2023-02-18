@@ -29,8 +29,14 @@ export class AuthService implements IAuthService {
       user.password = signUpDto.password;
       user.role = 'USER';
 
-      return this.userRepository.create(user);
+      return await this.userRepository.create(user);
     } catch (error) {
+      if (error.message.includes('UNIQUE KEY')) {
+        throw new HttpException(
+          'Username already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
