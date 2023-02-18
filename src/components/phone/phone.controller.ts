@@ -4,10 +4,19 @@ import {
   Inject,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Role } from '../auth/role.enum';
+import { RoleGuard } from '../auth/role.guard';
 import { CreatePhoneDto } from './dto/createPhone.dto';
 import {
   IPhoneService,
@@ -23,6 +32,8 @@ export class PhoneController {
   ) {}
 
   @Post()
+  @UseGuards(RoleGuard(Role.ADMIN))
+  @ApiBearerAuth()
   @ApiResponse({
     status: 201,
     description: 'Create a phone successfully',
