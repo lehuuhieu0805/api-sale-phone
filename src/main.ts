@@ -2,7 +2,7 @@ import { APIPrefix } from './constants/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
   app.setGlobalPrefix(APIPrefix.VERSION);
+  app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('API Sale Phone')
