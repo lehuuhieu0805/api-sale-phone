@@ -29,6 +29,7 @@ export class PhoneRepository
         name: updatePhoneDto.name,
         price: updatePhoneDto.price,
         quantity: updatePhoneDto.quantity,
+        status: updatePhoneDto.status,
       })
       .where('id = :id', { id: id })
       .execute();
