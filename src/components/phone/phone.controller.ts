@@ -58,4 +58,10 @@ export class PhoneController {
   async getById(@Param('id') id: string) {
     return await this.phoneService.getById(id);
   }
+
+  @Get()
+  @ApiResponse({ status: 200, description: 'Get all phones successfully' })
+  async getAll() {
+    return await this.phoneService.getAll();
+  }
 }

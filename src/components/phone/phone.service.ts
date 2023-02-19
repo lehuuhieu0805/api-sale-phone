@@ -17,6 +17,10 @@ export class PhoneService implements IPhoneService {
     private readonly phoneRepository: IPhoneRepository,
   ) {}
 
+  async getAll(): Promise<Phone[]> {
+    return await this.phoneRepository.findAll();
+  }
+
   async getById(id: string): Promise<Phone> {
     const phone = await this.phoneRepository.findById(id);
     if (!phone) {
