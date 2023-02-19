@@ -4,4 +4,5 @@ export const PHONE_SERVICE = 'PHONE SERVICE';
 
 export interface IPhoneService {
   create(dto: CreatePhoneDto): Promise<Phone>;
+  getById(id: string): Promise<Phone>;
 }

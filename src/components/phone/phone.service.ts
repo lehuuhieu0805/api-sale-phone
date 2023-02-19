@@ -17,6 +17,14 @@ export class PhoneService implements IPhoneService {
     private readonly phoneRepository: IPhoneRepository,
   ) {}
 
+  async getById(id: string): Promise<Phone> {
+    const phone = await this.phoneRepository.findById(id);
+    if (!phone) {
+      throw new HttpException('Id not found', HttpStatus.NOT_FOUND);
+    }
+    return phone;
+  }
+
   async create(dto: CreatePhoneDto): Promise<Phone> {
     const phone = new Phone();
     phone.name = dto.name;

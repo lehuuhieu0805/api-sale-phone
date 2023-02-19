@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   Inject,
+  Param,
   Post,
   UploadedFile,
   UseGuards,
@@ -49,5 +51,11 @@ export class PhoneController {
   ) {
     dto.image = image;
     return await this.phoneService.create(dto);
+  }
+
+  @Get(':id')
+  @ApiResponse({ status: 200, description: 'Get a phone successfully' })
+  async getById(@Param('id') id: string) {
+    return await this.phoneService.getById(id);
   }
 }
