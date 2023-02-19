@@ -10,6 +10,7 @@ import {
 } from './interfaces/phone.repository.interface';
 import { IPhoneService } from './interfaces/phone.service.interface';
 import { Phone } from './phone.entity';
+import { UpdatePhoneDto } from './dto/updatePhone.dto';
 
 @Injectable()
 export class PhoneService implements IPhoneService {
@@ -17,6 +18,28 @@ export class PhoneService implements IPhoneService {
     @Inject(PHONE_REPOSITORY)
     private readonly phoneRepository: IPhoneRepository,
   ) {}
+
+  async update(id: string, dto: UpdatePhoneDto): Promise<Phone> {
+    // user don't upload image or input image empty
+    if (dto.image == null || dto.image == '') {
+      const phone = await this.getById(id);
+      dto.image = phone.image;
+    } else {
+      const url = await this.uploadFile(dto.image);
+      dto.image = url;
+    }
+
+    try {
+      await this.phoneRepository.updatePhone(id, dto);
+
+      return await this.getById(id);
+    } catch (error) {
+      throw new HttpException(
+        'Update phone failed',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 
   async getAll(): Promise<Phone[]> {
     return await this.phoneRepository.findAll();
@@ -37,9 +60,16 @@ export class PhoneService implements IPhoneService {
     phone.quantity = dto.quantity;
     phone.status = StatusEnum.ACTIVE;
 
+    const url = await this.uploadFile(dto.image);
+    phone.image = url;
+
+    return await this.phoneRepository.create(phone);
+  }
+
+  async uploadFile(file: any): Promise<string> {
     const formData = new FormData();
-    formData.append('files', Readable.from(dto.image.buffer), {
-      filename: dto.image.originalname,
+    formData.append('files', Readable.from(file.buffer), {
+      filename: file.originalname,
     });
 
     try {
@@ -51,14 +81,12 @@ export class PhoneService implements IPhoneService {
         },
         data: formData,
       });
-      phone.image = response.data.url[0];
+      return response.data.url[0];
     } catch (error) {
       throw new HttpException(
         'Upload image failed',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-
-    return await this.phoneRepository.create(phone);
   }
 }

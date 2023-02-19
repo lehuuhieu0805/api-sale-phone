@@ -3,7 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { IPhoneRepository } from './../components/phone/interfaces/phone.repository.interface';
 import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
+import { UpdatePhoneDto } from 'src/components/phone/dto/updatePhone.dto';
 
 @Injectable()
 export class PhoneRepository
@@ -15,5 +16,23 @@ export class PhoneRepository
     private readonly phoneRepository: Repository<Phone>,
   ) {
     super(phoneRepository);
+  }
+
+  async updatePhone(
+    id: string,
+    updatePhoneDto: UpdatePhoneDto,
+  ): Promise<number> {
+    const result: UpdateResult = await this.phoneRepository
+      .createQueryBuilder()
+      .update({
+        image: updatePhoneDto.image,
+        name: updatePhoneDto.name,
+        price: updatePhoneDto.price,
+        quantity: updatePhoneDto.quantity,
+      })
+      .where('id = :id', { id: id })
+      .execute();
+
+    return result.affected;
   }
 }

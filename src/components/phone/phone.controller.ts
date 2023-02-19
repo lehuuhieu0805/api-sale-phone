@@ -1,3 +1,4 @@
+import { UpdatePhoneDto } from './dto/updatePhone.dto';
 import {
   Body,
   Controller,
@@ -5,6 +6,7 @@ import {
   Inject,
   Param,
   Post,
+  Put,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -63,5 +65,22 @@ export class PhoneController {
   @ApiResponse({ status: 200, description: 'Get all phones successfully' })
   async getAll() {
     return await this.phoneService.getAll();
+  }
+
+  @Put(':id')
+  @ApiResponse({ status: 200, description: 'Update a phone successfully' })
+  @UseGuards(RoleGuard(Role.ADMIN))
+  @ApiBearerAuth()
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdatePhoneDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    if (image) {
+      dto.image = image;
+    }
+    return await this.phoneService.update(id, dto);
   }
 }
