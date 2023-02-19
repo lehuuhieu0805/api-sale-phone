@@ -1,3 +1,4 @@
+import { StatusEnum } from './../../constants/common';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as FormData from 'form-data';
@@ -34,6 +35,7 @@ export class PhoneService implements IPhoneService {
     phone.name = dto.name;
     phone.price = dto.price;
     phone.quantity = dto.quantity;
+    phone.status = StatusEnum.ACTIVE;
 
     const formData = new FormData();
     formData.append('files', Readable.from(dto.image.buffer), {

@@ -5,3 +5,8 @@ export enum APIPrefix {
 export const jwtConstants = {
   secret: 'secretKey',
 };
+
+export enum StatusEnum {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'IN_ACTIVE',
+}
