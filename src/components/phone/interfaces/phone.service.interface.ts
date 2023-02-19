@@ -8,4 +8,5 @@ export interface IPhoneService {
   getById(id: string): Promise<Phone>;
   getAll(): Promise<Phone[]>;
   update(id: string, dto: UpdatePhoneDto): Promise<Phone>;
+  delete(id: string): Promise<void>;
 }

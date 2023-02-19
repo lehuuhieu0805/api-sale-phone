@@ -2,7 +2,9 @@ import { UpdatePhoneDto } from './dto/updatePhone.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Inject,
   Param,
   Post,
@@ -82,5 +84,14 @@ export class PhoneController {
       dto.image = image;
     }
     return await this.phoneService.update(id, dto);
+  }
+
+  @Delete(':id')
+  @ApiResponse({ status: 200, description: 'Delete a phone successfully' })
+  @UseGuards(RoleGuard(Role.ADMIN))
+  @ApiBearerAuth()
+  @HttpCode(204)
+  async delete(@Param('id') id: string) {
+    return await this.phoneService.delete(id);
   }
 }

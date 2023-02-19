@@ -5,6 +5,7 @@ import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { UpdatePhoneDto } from 'src/components/phone/dto/updatePhone.dto';
+import { StatusEnum } from 'src/constants/common';
 
 @Injectable()
 export class PhoneRepository
@@ -16,6 +17,18 @@ export class PhoneRepository
     private readonly phoneRepository: Repository<Phone>,
   ) {
     super(phoneRepository);
+  }
+
+  async deletePhone(id: string): Promise<number> {
+    const result: UpdateResult = await this.phoneRepository
+      .createQueryBuilder()
+      .update({
+        status: StatusEnum.INACTIVE,
+      })
+      .where('id = :id', { id: id })
+      .execute();
+
+    return result.affected;
   }
 
   async updatePhone(

@@ -1,16 +1,16 @@
-import { StatusEnum } from './../../constants/common';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as FormData from 'form-data';
 import { Readable } from 'stream';
+import { StatusEnum } from './../../constants/common';
 import { CreatePhoneDto } from './dto/createPhone.dto';
+import { UpdatePhoneDto } from './dto/updatePhone.dto';
 import {
   IPhoneRepository,
   PHONE_REPOSITORY,
 } from './interfaces/phone.repository.interface';
 import { IPhoneService } from './interfaces/phone.service.interface';
 import { Phone } from './phone.entity';
-import { UpdatePhoneDto } from './dto/updatePhone.dto';
 
 @Injectable()
 export class PhoneService implements IPhoneService {
@@ -18,6 +18,13 @@ export class PhoneService implements IPhoneService {
     @Inject(PHONE_REPOSITORY)
     private readonly phoneRepository: IPhoneRepository,
   ) {}
+
+  async delete(id: string): Promise<void> {
+    const result = await this.phoneRepository.deletePhone(id);
+    if (result == 0) {
+      throw new HttpException('Id not found', HttpStatus.BAD_REQUEST);
+    }
+  }
 
   async update(id: string, dto: UpdatePhoneDto): Promise<Phone> {
     // user don't upload image or input image empty
