@@ -16,4 +16,7 @@ export class Phone {
 
   @Column()
   image: string;
+
+  @Column()
+  status: string;
 }
