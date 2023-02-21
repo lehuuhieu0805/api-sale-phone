@@ -17,7 +17,7 @@ export class Order {
   totalPrice: number;
 
   @Column()
-  quantity: number;
+  totalQuantity: number;
 
   @Column()
   dateCreated: Date;

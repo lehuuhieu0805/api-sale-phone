@@ -11,7 +11,7 @@ export class OrderItem {
   quantity: number;
 
   @Column()
-  totalPrice: number;
+  price: number;
 
   @ManyToOne(() => Order, (order) => order.orderItems, { eager: false })
   order: Order;
