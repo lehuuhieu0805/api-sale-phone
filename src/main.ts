@@ -1,3 +1,4 @@
+import { TransformInterceptor } from './transform.interceptor';
 import { APIPrefix } from './constants/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -11,6 +12,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(APIPrefix.VERSION);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('API Sale Phone')
