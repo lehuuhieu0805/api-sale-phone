@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './../user/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('orders')
 export class Order {
@@ -26,6 +27,7 @@ export class Order {
   status: string;
 
   @ManyToOne(() => User, (user) => user.orders, { eager: false })
+  @Exclude({ toPlainOnly: true })
   user: User;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: false })
