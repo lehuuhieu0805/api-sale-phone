@@ -8,10 +8,10 @@ const configService = new ConfigService();
 export const dataSourceOptions: DataSourceOptions = {
   type: 'mssql',
   host: configService.get('DB_HOST'),
-  port: 1433,
+  port: Number.parseInt(configService.get('DB_PORT')),
   username: configService.get('DB_USER_NAME'),
   password: configService.get('DB_PASSWORD'),
-  database: 'sale-phone',
+  database: configService.get('DB_NAME'),
   synchronize: false,
   logging: false,
   entities: ['dist/components/**/*.entity{.js,.ts}'],
