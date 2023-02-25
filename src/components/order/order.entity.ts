@@ -2,6 +2,7 @@ import { OrderItem } from './../order-item/order-item.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -26,7 +27,14 @@ export class Order {
   @Column()
   status: string;
 
-  @ManyToOne(() => User, (user) => user.orders, { eager: false })
+  @ManyToOne(() => User, (user) => user.orders, {
+    eager: false,
+    nullable: false,
+  })
+  @JoinColumn({
+    name: 'userId',
+    referencedColumnName: 'id',
+  })
   @Exclude({ toPlainOnly: true })
   user: User;
 
