@@ -1,10 +1,10 @@
-/* eslint-disable prettier/prettier */
 import { CacheModule, CacheStore, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-store';
 import { AuthModule } from './components/auth/auth.module';
 import { CartModule } from './components/cart/cart.module';
+import { OrderItemModule } from './components/order-item/order-item.module';
 import { OrderModule } from './components/order/order.module';
 import { PhoneModule } from './components/phone/phone.module';
 import { UserModule } from './components/user/user.module';
@@ -39,6 +39,7 @@ import { dataSourceOptions } from './config/data-source.config';
     PhoneModule,
     CartModule,
     OrderModule,
+    OrderItemModule,
   ],
 })
 export class AppModule {}

@@ -14,5 +14,6 @@ import { Phone } from './phone.entity';
     { provide: PHONE_REPOSITORY, useClass: PhoneRepository },
   ],
   controllers: [PhoneController],
+  exports: [PHONE_REPOSITORY],
 })
 export class PhoneModule {}
