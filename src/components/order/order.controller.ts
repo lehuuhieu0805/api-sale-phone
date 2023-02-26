@@ -1,9 +1,9 @@
-import { User } from './../user/user.entity';
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/getUser.decorator';
 import { Role } from '../auth/role.enum';
 import { RoleGuard } from './../auth/role.guard';
+import { User } from './../user/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import {
   IOrderService,
@@ -28,5 +28,16 @@ export class OrderController {
     @GetUser() user: User,
   ): Promise<Order> {
     return await this.orderService.create(createOrderDto, user);
+  }
+
+  @Get()
+  @UseGuards(RoleGuard(Role.USER))
+  @ApiResponse({
+    status: 200,
+    description: 'Get all of user orders successfully',
+  })
+  @ApiBearerAuth()
+  async getAll(@GetUser() user: User): Promise<Order[]> {
+    return await this.orderService.getAll(user);
   }
 }

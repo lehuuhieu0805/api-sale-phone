@@ -15,6 +15,10 @@ export class OrderService implements IOrderService {
     private readonly orderRepository: IOrderRepository,
   ) {}
 
+  async getAll(user: User): Promise<Order[]> {
+    return this.orderRepository.findAllByUser(user);
+  }
+
   async create(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
     const order = new Order();
     order.totalPrice = createOrderDto.totalPrice;
