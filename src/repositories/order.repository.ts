@@ -18,7 +18,7 @@ export class OrderRepository
     super(orderRepository);
   }
 
-  async findAllByUser(user: User): Promise<Order[]> {
+  async getAllByUser(user: User): Promise<Order[]> {
     return await this.orderRepository
       .createQueryBuilder('orders')
       .innerJoinAndSelect('orders.orderItems', 'order_items')

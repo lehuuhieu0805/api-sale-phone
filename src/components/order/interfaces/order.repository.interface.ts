@@ -5,5 +5,5 @@ import { Order } from './../order.entity';
 export const ORDER_REPOSITORY = 'ORDER REPOSITORY';
 
 export interface IOrderRepository extends IBaseRepository<Order> {
-  findAllByUser(user: User): Promise<Order[]>;
+  getAllByUser(user: User): Promise<Order[]>;
 }

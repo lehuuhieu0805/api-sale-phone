@@ -16,7 +16,7 @@ export class OrderService implements IOrderService {
   ) {}
 
   async getAll(user: User): Promise<Order[]> {
-    return this.orderRepository.findAllByUser(user);
+    return this.orderRepository.getAllByUser(user);
   }
 
   async create(createOrderDto: CreateOrderDto, user: User): Promise<Order> {
