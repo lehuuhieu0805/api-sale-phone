@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import {
   IOrderRepository,
   ORDER_REPOSITORY,
@@ -36,12 +36,35 @@ export class OrderItemService implements IOrderItemService {
       createOrderItemDto.orderId,
     );
 
+    // check quantity of phone
+    if (phone.quantity < createOrderItemDto.quantity) {
+      throw new HttpException(
+        'Quantity of phone is not enough',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const orderItem = new OrderItem();
     orderItem.quantity = createOrderItemDto.quantity;
     orderItem.price = createOrderItemDto.price;
     orderItem.phone = phone;
     orderItem.order = order;
 
-    return await this.orderItemRepository.create(orderItem);
+    // update quantity of phone
+    phone.quantity -= orderItem.quantity;
+    try {
+      await this.phoneRepository.updatePhone(phone.id, phone);
+    } catch (error) {
+      throw new HttpException('Update phone failed', HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      return await this.orderItemRepository.create(orderItem);
+    } catch (error) {
+      throw new HttpException(
+        'Create order item failed',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
