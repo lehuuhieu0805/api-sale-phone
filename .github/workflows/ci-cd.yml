@@ -9,14 +9,8 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false # tells github to not run further steps if this one fails
-            matrix:
-                node-version: [18.x] # sets the version of node we want to use, should be what you have on your server
-
-
         steps:
-            - name: Deploy with Node.js ${{ matrix.node-version }}
+            - name: Deploy to server
               uses: appleboy/ssh-action@master
               with: # We set all our secrets here for the action, these won't be shown in the action logs
                 host: ${{ secrets.HOST }}
