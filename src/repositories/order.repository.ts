@@ -18,6 +18,16 @@ export class OrderRepository
     super(orderRepository);
   }
 
+  async getById(id: string, user: User): Promise<Order> {
+    return await this.orderRepository
+      .createQueryBuilder('orders')
+      .innerJoinAndSelect('orders.orderItems', 'order_items')
+      .innerJoinAndSelect('order_items.phone', 'phone')
+      .where('orders.userId = :userId', { userId: user.id })
+      .andWhere('orders.id = :id', { id })
+      .getOne();
+  }
+
   async getAllByUser(user: User): Promise<Order[]> {
     return await this.orderRepository
       .createQueryBuilder('orders')

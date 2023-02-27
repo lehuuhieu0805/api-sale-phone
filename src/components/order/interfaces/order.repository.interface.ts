@@ -6,4 +6,5 @@ export const ORDER_REPOSITORY = 'ORDER REPOSITORY';
 
 export interface IOrderRepository extends IBaseRepository<Order> {
   getAllByUser(user: User): Promise<Order[]>;
+  getById(id: string, user: User): Promise<Order>;
 }

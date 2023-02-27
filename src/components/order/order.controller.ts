@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/getUser.decorator';
 import { Role } from '../auth/role.enum';
@@ -39,5 +47,19 @@ export class OrderController {
   @ApiBearerAuth()
   async getAll(@GetUser() user: User): Promise<Order[]> {
     return await this.orderService.getAll(user);
+  }
+
+  @Get(':id')
+  @UseGuards(RoleGuard(Role.USER))
+  @ApiResponse({
+    status: 200,
+    description: 'Get the order by id successfully',
+  })
+  @ApiBearerAuth()
+  async getById(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<Order> {
+    return await this.orderService.getById(id, user);
   }
 }

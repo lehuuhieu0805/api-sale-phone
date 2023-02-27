@@ -15,6 +15,10 @@ export class OrderService implements IOrderService {
     private readonly orderRepository: IOrderRepository,
   ) {}
 
+  async getById(id: string, user: User): Promise<Order> {
+    return this.orderRepository.getById(id, user);
+  }
+
   async getAll(user: User): Promise<Order[]> {
     return this.orderRepository.getAllByUser(user);
   }

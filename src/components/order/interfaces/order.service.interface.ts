@@ -7,4 +7,5 @@ export const ORDER_SERVICE = 'ORDER SERVICE';
 export interface IOrderService {
   create(createOrderDto: CreateOrderDto, user: User): Promise<Order>;
   getAll(user: User): Promise<Order[]>;
+  getById(id: string, user: User): Promise<Order>;
 }
