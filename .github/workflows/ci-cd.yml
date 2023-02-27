@@ -1,0 +1,30 @@
+name: API-Sale-Phone CI/CD
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false # tells github to not run further steps if this one fails
+            matrix:
+                node-version: [18.x] # sets the version of node we want to use, should be what you have on your server
+
+
+        steps:
+            - name: Deploy with Node.js ${{ matrix.node-version }}
+              uses: appleboy/ssh-action@master
+              with: # We set all our secrets here for the action, these won't be shown in the action logs
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USERNAME }}
+                password: ${{ secrets.PASSWORD }}
+                port: ${{ secrets.PORT }}
+                script: |
+                    cd /var/www/api-sale-phone # we move into our app's folder
+                    git pull # we pull any changes from git
+                    yarn install # we install any missing dependencies and remove all dependencies not necessary
+                    yarn run build # we build our app
+                    pm2 reload api-sale-phone:4001 # we reload the app via PM2
