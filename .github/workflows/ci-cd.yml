@@ -1,7 +1,8 @@
 name: API-Sale-Phone CI/CD
 
 on:
-  pull_request:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
     branches: [master]
 
 jobs:
