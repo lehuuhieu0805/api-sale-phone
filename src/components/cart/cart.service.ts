@@ -10,27 +10,25 @@ export class CartService implements ICartService {
     private readonly cacheManager: Cache,
   ) {}
 
-  async add(user: any, phoneDto: PhoneDto): Promise<any> {
+  async create(user: any, phoneDto: PhoneDto): Promise<any> {
     const cart: Array<PhoneDto> =
       (await this.cacheManager.get(`cart:${user.username}`)) || [];
 
     // cart empty
     if (cart.length == 0) {
-      phoneDto.quantity = 1;
       cart.push(phoneDto);
       return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
     }
 
     // find item in cart
-    for (const cartItem of cart) {
+    for (let cartItem of cart) {
       if (phoneDto.id === cartItem.id) {
-        cartItem.quantity += 1;
+        cartItem = phoneDto;
         return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
       }
     }
 
     // add new item to cart if item not exist in cart
-    phoneDto.quantity = 1;
     cart.push(phoneDto);
     return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
   }

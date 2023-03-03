@@ -33,14 +33,14 @@ export class CartController {
     return await this.cartService.getByUsername(username);
   }
 
-  @Post('add')
+  @Post()
   @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: 201,
     description: 'Add to cart successfully',
   })
   @ApiBearerAuth()
-  async add(@GetUser() user, @Body() phoneDto: PhoneDto) {
-    return await this.cartService.add(user, phoneDto);
+  async create(@GetUser() user, @Body() phoneDto: PhoneDto) {
+    return await this.cartService.create(user, phoneDto);
   }
 }
