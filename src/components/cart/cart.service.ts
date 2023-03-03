@@ -18,21 +18,21 @@ export class CartService implements ICartService {
     if (cart.length == 0) {
       phoneDto.quantity = 1;
       cart.push(phoneDto);
-      return await this.cacheManager.set(`cart:${user.username}`, cart);
+      return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
     }
 
     // find item in cart
     for (const cartItem of cart) {
       if (phoneDto.id === cartItem.id) {
         cartItem.quantity += 1;
-        return await this.cacheManager.set(`cart:${user.username}`, cart);
+        return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
       }
     }
 
     // add new item to cart if item not exist in cart
     phoneDto.quantity = 1;
     cart.push(phoneDto);
-    return await this.cacheManager.set(`cart:${user.username}`, cart);
+    return await this.cacheManager.set(`cart:${user.username}`, cart, 0);
   }
 
   async getByUsername(username: string): Promise<any> {
