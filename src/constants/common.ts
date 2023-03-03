@@ -10,3 +10,8 @@ export enum StatusEnum {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'IN_ACTIVE',
 }
+
+export enum TypeOfQuantityInCartEnum {
+  UP = 'up',
+  DOWN = 'down',
+}

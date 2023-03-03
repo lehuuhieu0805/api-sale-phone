@@ -1,3 +1,4 @@
+import { TypeOfQuantityInCartEnum } from './../../constants/common';
 import {
   Body,
   Controller,
@@ -5,6 +6,7 @@ import {
   Inject,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -40,7 +42,11 @@ export class CartController {
     description: 'Add to cart successfully',
   })
   @ApiBearerAuth()
-  async create(@GetUser() user, @Body() phoneDto: PhoneDto) {
-    return await this.cartService.create(user, phoneDto);
+  async create(
+    @Query('type') type: TypeOfQuantityInCartEnum,
+    @GetUser() user,
+    @Body() phoneDto: PhoneDto,
+  ) {
+    return await this.cartService.create(user, phoneDto, type);
   }
 }
