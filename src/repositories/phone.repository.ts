@@ -1,11 +1,11 @@
-import { Phone } from './../components/phone/phone.entity';
 import { Injectable } from '@nestjs/common';
-import { IPhoneRepository } from './../components/phone/interfaces/phone.repository.interface';
-import { BaseAbstractRepository } from './base/base.abstract.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
 import { UpdatePhoneDto } from 'src/components/phone/dto/updatePhone.dto';
 import { StatusEnum } from 'src/constants/common';
+import { Repository, UpdateResult } from 'typeorm';
+import { IPhoneRepository } from './../components/phone/interfaces/phone.repository.interface';
+import { Phone } from './../components/phone/phone.entity';
+import { BaseAbstractRepository } from './base/base.abstract.repository';
 
 @Injectable()
 export class PhoneRepository
@@ -48,5 +48,16 @@ export class PhoneRepository
       .execute();
 
     return result.affected;
+  }
+
+  async getAllPhone(status: StatusEnum): Promise<Phone[]> {
+    if (status) {
+      return await this.phoneRepository
+        .createQueryBuilder()
+        .where('status = :status', { status })
+        .getMany();
+    } else {
+      return await this.phoneRepository.find();
+    }
   }
 }

@@ -1,4 +1,3 @@
-import { UpdatePhoneDto } from './dto/updatePhone.dto';
 import {
   Body,
   Controller,
@@ -9,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -18,12 +18,15 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Role } from '../auth/role.enum';
 import { RoleGuard } from '../auth/role.guard';
+import { StatusEnum } from './../../constants/common';
 import { CreatePhoneDto } from './dto/createPhone.dto';
+import { UpdatePhoneDto } from './dto/updatePhone.dto';
 import {
   IPhoneService,
   PHONE_SERVICE,
@@ -65,8 +68,14 @@ export class PhoneController {
 
   @Get()
   @ApiResponse({ status: 200, description: 'Get all phones successfully' })
-  async getAll() {
-    return await this.phoneService.getAll();
+  @ApiQuery({
+    name: 'status',
+    type: String,
+    description: 'Status of phone is ACTIVE or IN_ACTIVE. It is optional',
+    required: false,
+  })
+  async getAll(@Query('status') status?: StatusEnum) {
+    return await this.phoneService.getAll(status);
   }
 
   @Put(':id')

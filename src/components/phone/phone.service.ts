@@ -48,8 +48,8 @@ export class PhoneService implements IPhoneService {
     }
   }
 
-  async getAll(): Promise<Phone[]> {
-    return await this.phoneRepository.findAll();
+  async getAll(status: StatusEnum): Promise<Phone[]> {
+    return await this.phoneRepository.getAllPhone(status);
   }
 
   async getById(id: string): Promise<Phone> {
