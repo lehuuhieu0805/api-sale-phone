@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IOrderItemRepository } from './../components/order-item/interfaces/order-item.repository';
+import { IOrderItemRepository } from './../components/order-item/interfaces/order-item.repository.interface';
 import { OrderItem } from './../components/order-item/order-item.entity';
 import { BaseAbstractRepository } from './base/base.abstract.repository';
 
