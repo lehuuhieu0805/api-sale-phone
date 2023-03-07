@@ -30,6 +30,7 @@ import { dataSourceOptions } from './config/data-source.config';
         return {
           store: store as unknown as CacheStore,
           ttl: 0,
+          max: 100,
         };
       },
     }),
