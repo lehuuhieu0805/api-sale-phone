@@ -9,7 +9,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetUser } from '../auth/getUser.decorator';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 import { PhoneDto } from './dto/phone.dto';
@@ -40,6 +46,11 @@ export class CartController {
   @ApiResponse({
     status: 201,
     description: 'Add to cart successfully',
+  })
+  @ApiQuery({
+    name: 'type',
+    enum: TypeOfQuantityInCartEnum,
+    description: 'Type of quantity in cart is up or down',
   })
   @ApiBearerAuth()
   async create(
