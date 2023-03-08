@@ -1,4 +1,3 @@
-import { TypeOfQuantityInCartEnum } from './../../constants/common';
 import {
   Body,
   Controller,
@@ -9,14 +8,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiQuery,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/getUser.decorator';
+import { TypeOfQuantityInCartEnum } from './../../constants/common';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
 import { PhoneDto } from './dto/phone.dto';
 import {
