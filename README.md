@@ -57,6 +57,8 @@ $ pm2 serve html 4002 --name sale-phone-ui
 $ sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Hieu1234" -p 1433:1433 -v vmssql:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
 
 $ sudo docker run --name redis -p 6379:6379 -v vredis:/var/opt/mssql -d redis redis-server --appendonly yes --replica-read-only no
+
+$ sudo docker run --name rabbitmq -p 5672:5672 -p 15672:15672 -v vrabbitmq:/var/opt/rabbitmq -d rabbitmq:3.11-management
 ```
 
 #### Reference
