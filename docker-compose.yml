@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  # mssql:
+  #   container_name: mssql
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   ports:
+  #     - 1433:1433
+  #   volumes:
+  #     - vmssql:/var/opt/mssql
+  #   environment:
+  #     - MSSQL_SA_PASSWORD=$DB_PASSWORD
+  #     - ACCEPT_EULA=Y
+
+  # redis:
+  #   container_name: redis
+  #   image: redis
+  #   command: redis-server --appendonly yes --replica-read-only no
+  #   ports:
+  #     - 6379:6379 # HOST:CONTAINER
+  #   volumes:
+  #     - vredis:/var/opt/redis
+
+  api:
+    container_name: api-sale-phone
+    # depends_on:
+      # - mssql
+      # - redis
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    ports:
+      - $PORT:4000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  vmssql:
+  vredis:
